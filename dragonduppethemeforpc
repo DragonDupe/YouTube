@@ -857,7 +857,7 @@ function Library:create(options)
 	settingsTab:keybind{
 		Name = "Toggle Key",
 		Description = "Key to show/hide the UI.",
-		Keybind = Enum.KeyCode.Delete,
+		Keybind = Enum.KeyCode.RightShift,
 		Callback = function()
 			self.Toggled = not self.Toggled
 			Library:show(self.Toggled)
@@ -895,7 +895,8 @@ function Library:create(options)
 		Name = "Dragon Dupe",
 		Description = "Owner Script",
 		Discord = "Dragon Dupe#1089",
-		YouTube = "https://www.youtube.com/dragondupe"
+		YouTube = "https://www.youtube.com/dragondupe",
+		Github="https://github.com/DragonDupe/YouTube"
 	}
     creditsTab:credit{
 		Name = "Not JB37",
@@ -918,6 +919,7 @@ function Library:create(options)
 		Discord = "Deity#0228",
 		YouTube = "https://www.youtube.com/@d4p4v"
 	}
+	creditsTab:credit{Name = "Repository", Description = "UI Library Repository", Github="https://github.com/deeeity/mercury-lib/blob/master/src.lua"}
 
 	return mt
 end
