@@ -1,0 +1,797 @@
+--pengambilan ui libs-----------------------------
+local DragonDupeWin = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/fluxlib.txt")()
+--pembuatan judul gui--------------------------------
+local DragonDupe = DragonDupeWin:Window("Dragon Dupe", "Easy Way To Build Your Base", Color3.fromRGB(255, 110, 48), Enum.KeyCode.RightShift)
+--lokal semua gui------------------------------------
+local solara = {}
+solara.workspc = game:GetService("Workspace")
+solara.runserv = game:GetService("RunService")
+solara.light = game:GetService("Lighting")
+solara.cgui = game:GetService("CoreGui")
+solara.sgui = game:GetService("StarterGui")
+solara.uis = game:GetService("UserInputService")
+solara.teleserv = game:GetService("TeleportService")
+solara.proxpromt= game:GetService("ProximityPromptService")
+solara.replstr = game:GetService("ReplicatedStorage")
+solara.plrs = game:GetService("Players")
+solara.plr = solara.plrs.LocalPlayer
+solara.chr = solara.plr.Character
+solara.hum = solara.chr.Humanoid
+solara.hrp = solara.chr.HumanoidRootPart
+solara.camera = solara.workspc.CurrentCamera
+solara.Head = solara.chr.Head
+solara.Ferry = solara.workspc.Ferry
+solara.hidewater = 0
+solara.mouse = solara.plr:GetMouse()
+solara.fb = true
+solara.nc = false
+solara.larikencang = 40
+solara.terbang = true
+solara.dupeaxe = ""
+
+
+--FULL BRIGHT FUNC--------------------------------
+if not solara.fb then
+
+	_G.FullBrightEnabled = false
+
+	_G.NormalLightingSettings = {
+		Brightness = solara.light.Brightness,
+		ClockTime = solara.light.ClockTime,
+		FogEnd = solara.light.FogEnd,
+		GlobalShadows = solara.light.GlobalShadows,
+		Ambient = solara.light.Ambient
+	}
+
+	solara.light:GetPropertyChangedSignal("Brightness"):Connect(function()
+		if solara.light.Brightness ~= 1 and solara.light.Brightness ~= _G.NormalLightingSettings.Brightness then
+			_G.NormalLightingSettings.Brightness = solara.light.Brightness
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			solara.light.Brightness = 1
+		end
+	end)
+
+	solara.light:GetPropertyChangedSignal("ClockTime"):Connect(function()
+		if solara.light.ClockTime ~= 12 and solara.light.ClockTime ~= _G.NormalLightingSettings.ClockTime then
+			_G.NormalLightingSettings.ClockTime = solara.light.ClockTime
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			solara.light.ClockTime = 12
+		end
+	end)
+
+	solara.light:GetPropertyChangedSignal("FogEnd"):Connect(function()
+		if solara.light.FogEnd ~= 786543 and solara.light.FogEnd ~= _G.NormalLightingSettings.FogEnd then
+			_G.NormalLightingSettings.FogEnd = solara.light.FogEnd
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			solara.light.FogEnd = 786543
+		end
+	end)
+
+	solara.light:GetPropertyChangedSignal("GlobalShadows"):Connect(function()
+		if solara.light.GlobalShadows ~= false and solara.light.GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows then
+			_G.NormalLightingSettings.GlobalShadows = solara.light.GlobalShadows
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			solara.light.GlobalShadows = false
+		end
+	end)
+
+	solara.light:GetPropertyChangedSignal("Ambient"):Connect(function()
+		if solara.light.Ambient ~= Color3.fromRGB(178, 178, 178) and solara.light.Ambient ~= _G.NormalLightingSettings.Ambient then
+			_G.NormalLightingSettings.Ambient = solara.light.Ambient
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			solara.light.Ambient = Color3.fromRGB(178, 178, 178)
+		end
+	end)
+
+	solara.light.Brightness = 1
+	solara.light.ClockTime = 12
+	solara.light.FogEnd = 786543
+	solara.light.GlobalShadows = false
+	solara.light.Ambient = Color3.fromRGB(178, 178, 178)
+
+	local LatestValue = true
+	spawn(function()
+		repeat
+			wait()
+		until _G.FullBrightEnabled
+		while wait() do
+			if _G.FullBrightEnabled ~= LatestValue then
+				if not _G.FullBrightEnabled then
+					solara.light.Brightness = _G.NormalLightingSettings.Brightness
+					solara.light.ClockTime = _G.NormalLightingSettings.ClockTime
+					solara.light.FogEnd = _G.NormalLightingSettings.FogEnd
+					solara.light.GlobalShadows = _G.NormalLightingSettings.GlobalShadows
+					solara.light.Ambient = _G.NormalLightingSettings.Ambient
+				else
+					solara.light.Brightness = 1
+					solara.light.ClockTime = 12
+					solara.light.FogEnd = 786543
+					solara.light.GlobalShadows = false
+					solara.light.Ambient = Color3.fromRGB(178, 178, 178)
+				end
+				LatestValue = not LatestValue
+			end
+		end
+	end)
+end
+
+
+_G.FullBrightEnabled = not _G.FullBrightEnabled
+--Tes Dulu-------------------------------------------------------
+_G.rf = false
+_G.n = false
+_G.d = false
+
+game.Lighting.Changed:connect(function()
+  if _G.d then
+    game.Lighting.TimeOfDay = "12:00:00"
+    game.Lighting.Brightness = 1
+  end
+  if _G.n then
+    game.Lighting.TimeOfDay = "24:00:00"
+    game.Lighting.Brightness = 0
+  end
+  if _G.rf then
+    game.Lighting.FogEnd = 9999
+
+  end
+  end)
+-- Sampe Sini Tesnya-------------------------------------------------------
+
+local lari = game:GetService("RunService").RenderStepped:Connect(function()
+    if solara.hum.WalkSpeed ~=0 then
+      solara.hum.WalkSpeed = solara.larikencang
+    end
+end)
+
+local InfiniteJumpEnabled = false
+game:GetService("UserInputService").JumpRequest:connect(function()
+	if InfiniteJumpEnabled then
+		solara.hum:ChangeState("Jumping")
+	end
+end)
+
+--[Tab 1 Player]-------------------------------------------------------
+local tab1 = DragonDupe:Tab("Player", "http://www.roblox.com/asset/?id=6022668935")
+tab1:Slider("Walkspeed", "Makes Your Faster.", 0, 500,40,function(angka)
+    solara.larikencang = angka
+end)
+tab1:Slider("Jump Power", "Jump Like A Frog.", 0, 500,50,function(angka)
+    solara.hum.JumpPower = angka
+end)
+tab1:Toggle("Infinity Jump", "Press Space To Jump", false, function(state)
+if state == true then
+  InfiniteJumpEnabled = true
+end
+if state == false then
+  InfiniteJumpEnabled = false
+end
+end)
+tab1:Line()
+
+
+--[Fly Function]-------------------------------------------------------
+repeat wait()
+until solara.plr and solara.chr and solara.chr:FindFirstChild("Torso") and solara.hum
+
+repeat wait() until solara.mouse
+
+local torso = solara.chr.Torso
+local flying = false
+local deb = true
+local ctrl = {f = 0, b = 0, l = 0, r = 0}
+local lastctrl = {f = 0, b = 0, l = 0, r = 0}
+local maxspeed = 10000
+local speed = 5
+local Flyspeed = 25
+
+function Fly()
+    bg = Instance.new("BodyGyro", torso)
+    bg.P = 9e4
+    bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+    bg.cframe = torso.CFrame
+    bv = Instance.new("BodyVelocity", torso)
+    bv.velocity = Vector3.new(0,0.1,0)
+    bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+    repeat wait()
+      solara.hum.PlatformStand = true
+      if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
+        speed = 5
+        if speed > maxspeed then
+          speed = maxspeed
+        end
+      elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
+        speed = speed-1
+        if speed < 0 then
+          speed = 0
+        end
+      end
+      if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
+        bv.velocity = ((solara.workspc.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((solara.workspc.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - solara.workspc.CurrentCamera.CoordinateFrame.p))*speed
+        lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
+      elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
+        bv.velocity = ((solara.workspc.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((solara.workspc.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - solara.workspc.CurrentCamera.CoordinateFrame.p))*speed
+      else
+        bv.velocity = Vector3.new(0,0.1,0)
+      end
+      bg.cframe = solara.workspc.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
+    until not flying
+    ctrl = {f = 0, b = 0, l = 0, r = 0}
+    lastctrl = {f = 0, b = 0, l = 0, r = 0}
+    speed = 0
+    bg:Destroy()
+	bg = nil
+    bv:Destroy()
+	bv = nil
+    solara.hum.PlatformStand = false
+end
+
+solara.mouse.KeyDown:connect(function(key)
+	if key:lower() == "" then
+		if flying then 
+			flying = false
+		else
+			flying = true
+			Fly()
+		end
+	elseif key:lower() == "w" then
+		ctrl.f = Flyspeed
+	elseif key:lower() == "s" then
+		ctrl.b = -Flyspeed
+	elseif key:lower() == "a" then
+		ctrl.l = -Flyspeed
+	elseif key:lower() == "d" then
+		ctrl.r = Flyspeed
+	end
+end)
+
+solara.mouse.KeyUp:connect(function(key)
+	if key:lower() == "w" then
+		ctrl.f = 0
+	elseif key:lower() == "s" then
+		ctrl.b = 0
+	elseif key:lower() == "a" then
+		ctrl.l = 0
+	elseif key:lower() == "d" then
+		ctrl.r = 0
+	end
+end)
+solara.hum.StateChanged:Connect(function(dragon,dupe)
+    if dupe == Enum.HumanoidStateType.Running then
+        ctrl.f = -1
+    else
+        ctrl.f = 0
+    end
+
+end)
+Fly()
+
+tab1:Toggle("Flying", "Terbang Seperti Superman", true, function(ggg)
+  if ggg == true then
+    solara.terbang = true
+  end
+  if ggg == false then
+    flying = false
+    solara.terbang = false
+  end
+end)
+tab1:Bind("Fly KeyBind", Enum.KeyCode.Q, function()
+  if solara.terbang == true then
+    if flying then flying = false
+else
+    flying = true
+    Fly()
+end
+end 
+end)
+
+tab1:Slider("Fly Speed", "Makes Your Fly Speed", 0, 200, 25, function(angka)
+Flyspeed = angka
+end)
+
+tab1:Line()
+tab1:Slider("Hip Height", "Hip Your Character.", 0, 400,0,function(dragonheigt)
+  solara.hum.HipHeight = dragonheigt
+  end)
+tab1:Button("BTools","telor" ,function()
+  local movetool = Instance.new("Tool", solara.plr.Backpack)
+    local deletetool = Instance.new("Tool", solara.plr.Backpack)
+    local undotool = Instance.new("Tool", solara.plr.Backpack)
+    local identifytool = Instance.new("Tool", solara.plr.Backpack)
+    local movedetect = false
+    local movingpart = nil
+    local movetransparency = 0
+        if editedparts == nil then
+        editedparts = {}
+        parentfix = {}
+        positionfix = {}
+        end
+    deletetool.Name = "Delete"
+    undotool.Name = "Undo"
+    identifytool.Name = "Identify"
+    movetool.Name = "Move"
+    undotool.CanBeDropped = false
+    deletetool.CanBeDropped = false
+    identifytool.CanBeDropped = false
+    movetool.CanBeDropped = false
+    undotool.RequiresHandle = false
+    deletetool.RequiresHandle = false
+    identifytool.RequiresHandle = false
+    movetool.RequiresHandle = false
+    local function createnotification(title, text)
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = title;
+        Text = text;
+        Duration = 1;
+        })
+    end
+        deletetool.Activated:Connect(function()
+        createnotification("Dragon Dupe", "You have deleted "..solara.mouse.Target.Name)
+        table.insert(editedparts, solara.mouse.Target)
+        table.insert(parentfix, solara.mouse.Target.Parent)
+        table.insert(positionfix, solara.mouse.Target.CFrame)
+        solara.mouse.Target.Parent = nil
+        end)
+        undotool.Activated:Connect(function()
+        createnotification("Dragon Dupe", "You have undone "..editedparts[#editedparts].Name)
+        editedparts[#editedparts].Parent = parentfix[#parentfix]
+        editedparts[#editedparts].CFrame = positionfix[#positionfix]
+        table.remove(positionfix, #positionfix)
+        table.remove(editedparts, #editedparts)
+        table.remove(parentfix, #parentfix)
+        end)
+        identifytool.Activated:Connect(function()
+        createnotification("Dragon Dupe", "Instance: "..solara.mouse.Target.ClassName.."\nName: "..solara.mouse.Target.Name)
+        end)
+        movetool.Activated:Connect(function()
+        createnotification("Dragon Dupe", "You are moving: "..solara.mouse.Target.Name)
+        movingpart = solara.mouse.Target
+        movedetect = true
+        movingpart.CanCollide = false
+        movetransparency = movingpart.Transparency
+        movingpart.Transparency = 0.5
+        solara.mouse.TargetFilter = movingpart
+        table.insert(editedparts, movingpart)
+        table.insert(parentfix, movingpart.Parent)
+        table.insert(positionfix, movingpart.CFrame)
+        movingpart.Transparency = movingpart.Transparency / 2
+        repeat
+        solara.mouse.Move:Wait()
+        movingpart.CFrame = CFrame.new(solara.mouse.Hit.p)
+        until movedetect == false
+        end)
+        movetool.Deactivated:Connect(function()
+        createnotification("Dragon Dupe", "You have stopped moving: "..solara.mouse.Target.Name)
+        movingpart.CanCollide = true
+        movedetect = false
+        solara.mouse.TargetFilter = nil
+        movingpart.Transparency = movetransparenc
+        end)
+end)
+tab1:Slider("Zoom Distance", "Makes your Zoom", 0, 1000,200, function(Value)
+  solara.plr.CameraMaxZoomDistance = Value
+  end)
+tab1:Line()
+tab1:Toggle("Hard Dragger", "Drag Any Items", false, function(t)
+  if t == true then
+    local dragongrabs = true
+    HardDragonGrab = solara.workspc.ChildAdded:Connect(function(dragongrab)
+      if dragongrab.Name == "Dragger" then
+          local dragongrabbody = dragongrab:WaitForChild("BodyGyro")
+          local dragongrabposition = dragongrab:WaitForChild("BodyPosition")
+          repeat
+              wait()
+              dragongrabposition.P = 120000;
+              dragongrabposition.D = 1000;
+              dragongrabposition.maxForce = Vector3.new(1, 1, 1) * 1000000;
+              dragongrabbody.maxTorque = Vector3.new(1, 1, 1) * 200;
+              dragongrabbody.P = 1200;
+              dragongrabbody.D = 140
+          until not dragongrab
+      end
+    end)
+    else HardDragonGrab:Disconnect()
+  end
+if t == false then
+  dragongrabs = false
+end
+end)
+tab1:Toggle("No Clip", "No Clip Like A Ghost", false, function(t)
+    if t == true then
+      solara.nc = true
+      Stepped = game:GetService("RunService").Stepped:Connect(function()
+        if not solara.nc == false then
+          for a, b in pairs(solara.workspc:GetChildren()) do
+                  if b.Name == solara.plr.Name then
+                  for i, v in pairs(solara.workspc[solara.plr.Name]:GetChildren()) do
+                  if v:IsA("BasePart") then
+                  v.CanCollide = false
+                  end end end end
+        else
+          Stepped:Disconnect()
+        end
+      end)
+    elseif t == false then
+      if solara.nc == true then solara.nc = false 
+    end
+  end
+  end)
+tab1:Toggle("Walk On Water", "Now You Can Walk On Water", false, function(walwater)
+if walwater == true then
+  for i, v in pairs(solara.workspc.Water:GetChildren()) do
+    if v.Name == "Water" then v.CanCollide = walwater end
+end
+end
+if walwater == false then
+  for i, v in pairs(solara.workspc.Water:GetChildren()) do
+    if v.Name == "Water" then v.CanCollide = walwater end
+end
+end
+end)
+
+
+--[Tab 2 World]-------------------------------------------------------
+local tab2 = DragonDupe:Tab("World", "http://www.roblox.com/asset/?id=6034412758")
+tab2:Toggle("Always Day","Your World Will Always Day", false, function(State)
+  if State == true then
+    if _G.n == false then
+    game.Lighting.TimeOfDay = "12:00:00"
+  game.Lighting.Brightness = 1
+  _G.d = State
+  end
+end
+  if State == false then
+    _G.d = false
+  end
+end)
+tab2:Toggle("Always Night","Your World Will Always Night", false, function(State)
+  if State == true then
+    if _G.d == false then
+    game.Lighting.TimeOfDay = "24:00:00"
+    game.Lighting.Brightness = 0
+    _G.n = State
+  end
+end
+  if State == false then
+      _G.n = false
+  end
+end)
+
+tab2:Toggle("Full Bright","Full Bright Your World", false, function(State)
+  if State == true then
+    solara.fb = true
+  end
+  if State == false then
+    solara.fb = false
+  end
+end)
+
+tab2:Toggle("X Ray","Superman Mode", false, function(t)
+  if t == true then
+  for i, d in pairs(solara.workspc:GetDescendants()) do
+		if d:IsA("BasePart") then
+			local transpVal = Instance.new("NumberValue", d)
+			transpVal.Name = "transpVal"
+			transpVal.Value = d.Transparency
+			d.Transparency = d.Transparency + 0.75
+		end
+	end
+end
+if t == false then
+  for i, d in pairs(solara.workspc:GetDescendants()) do
+		if d:IsA("BasePart") and d:FindFirstChild("transpVal") then
+			d.Transparency = d:FindFirstChild("transpVal").Value
+			d:FindFirstChild("transpVal"):Destroy()
+		end
+end
+end
+end)
+
+--[Tab 3 Teleport]-------------------------------------------------------
+local tab3 = DragonDupe:Tab("Teleport", "http://www.roblox.com/asset/?id=6035053288")
+telelist = {"Spawn","Wood Dropoff","Dock","Bridge","Shrine Of Sight","The Den","Volcano Win","Ski Lodge","Dragon Dupe"}
+woodlands = {"Blue","Volcano","Swamp","Palm Island 1","Palm Island 2","Palm Island 3","Sakura","Fir","Elm","White","Yellow Glow","Oak","Koa","Ice","End Times"}
+kedai ={"Wood r' Us","Land Store","Link's Logic","Fancy Furnishings","Boxed Cars","Fine Arts Shop","Bob's Shack","Strange Man"}
+solara.storeLoc = ""
+tab3:Dropdown("WAY POINTS", telelist, function(store)
+  solara.storeLoc = store
+  if solara.storeLoc == "Spawn" then solara.hrp.CFrame = CFrame.new(155, 3, 74) end
+    if solara.storeLoc == "Wood Dropoff" then solara.hrp.CFrame = CFrame.new(315, -0.5, 89.8) end
+    if solara.storeLoc == "Dock" then solara.hrp.CFrame = CFrame.new(1114, -1, -197) end
+    if solara.storeLoc == "Bridge" then solara.hrp.CFrame = CFrame.new(113, 11, -977) end
+    if solara.storeLoc == "Shrine Of Sight" then solara.hrp.CFrame = CFrame.new(-1600, 195, 919) end
+    if solara.storeLoc == "The Den" then solara.hrp.CFrame = CFrame.new(323, 41, 1930) end
+    if solara.storeLoc == "Volcano Win" then solara.hrp.CFrame = CFrame.new(-1675, 348, 1476) end
+    if solara.storeLoc == "Ski Lodge" then solara.hrp.CFrame = CFrame.new(1244, 62, 2306) end
+    if solara.storeLoc == "Dragon Dupe" then solara.hrp.CFrame = CFrame.new(-1998.437, 265.516, -2113.927) end
+  end)
+
+tab3:Dropdown("WOOD LOCATION",woodlands, function(store)
+  solara.storeLoc = store
+    if solara.storeLoc == "Blue" then solara.hrp.CFrame = CFrame.new(3581, -179, 430) end
+    if solara.storeLoc == "Volcano" then solara.hrp.CFrame = CFrame.new(-1585, 622, 1140) end
+    if solara.storeLoc == "Swamp" then solara.hrp.CFrame = CFrame.new(-1209, 132, -801) end
+    if solara.storeLoc == "Palm Island 1" then solara.hrp.CFrame = CFrame.new(2076, -8, -1527) end
+    if solara.storeLoc == "Palm Island 2" then solara.hrp.CFrame = CFrame.new(2614, -8, -56) end
+    if solara.storeLoc == "Palm Island 3" then solara.hrp.CFrame = CFrame.new(4350, -8, -1800) end
+    if solara.storeLoc == "Oak" then solara.hrp.CFrame = CFrame.new(4963, -0.20, 354) end
+    if solara.storeLoc == "Koa" then solara.hrp.CFrame = CFrame.new(-203, 4, -2041) end
+    if solara.storeLoc == "Ice" then solara.hrp.CFrame = CFrame.new(1458, 409, 3235) end
+    if solara.storeLoc == "Yellow Glow" then solara.hrp.CFrame = CFrame.new(-1132, -2, -948) end
+    if solara.storeLoc == "Sakura" then solara.hrp.CFrame = CFrame.new(235, 57, 1317) end
+    if solara.storeLoc == "White" then solara.hrp.CFrame = CFrame.new(-870, 224, 67) end
+    if solara.storeLoc == "Elm" then solara.hrp.CFrame = CFrame.new(-429, 10, -1452) end
+    if solara.storeLoc == "Fir" then solara.hrp.CFrame = CFrame.new(910, 57, 1502) end
+    if solara.storeLoc == "End Times" then solara.hrp.CFrame = CFrame.new(113, -214, -951) end
+  end)
+
+tab3:Dropdown("SHOP LOCATION", kedai, function(store)
+  solara.storeLoc = store
+  if solara.storeLoc == "Wood r' Us" then solara.chr:MoveTo(Vector3.new(268.4, 3.2, 52.1)) end
+  if solara.storeLoc == "Land Store" then solara.chr:MoveTo(Vector3.new(250, 3, -99)) end
+  if solara.storeLoc == "Link's Logic" then solara.hrp.CFrame = CFrame.new(4605, 3, -727) end
+  if solara.storeLoc == "Fancy Furnishings" then solara.hrp.CFrame = CFrame.new(491, 3, -1720) end
+  if solara.storeLoc == "Boxed Cars" then solara.hrp.CFrame = CFrame.new(509, 3, -1463) end
+  if solara.storeLoc == "Fine Arts Shop" then solara.hrp.CFrame = CFrame.new(5207, -166, 719) end
+  if solara.storeLoc == "Bob's Shack" then solara.hrp.CFrame = CFrame.new(260, 8, -2542) end
+  if solara.storeLoc == "Strange Man" then solara.hrp.CFrame = CFrame.new(1061, 16, 1131) end
+  end)
+
+
+tab3:Toggle("[CTRL + CLICK] > Teleport", "CLICK TO TELEPORT", false, function(state)
+  function GetCharacter()
+    return solara.chr
+end
+ function Teleport(pos)
+    local Char = GetCharacter()
+    if Char then
+        Char:MoveTo(pos)
+    end
+end
+if state == true then
+  CLICKTP = solara.uis.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.solara.mouseButton1 and solara.uis:IsKeyDown(Enum.KeyCode.LeftControl) then
+        Teleport(solara.mouse.Hit.p)
+    end
+end)
+end
+if state == false then
+  CLICKTP:Disconnect()
+end
+end)
+
+--[Tab 4 Base]-------------------------------------------------------
+local tab4 = DragonDupe:Tab("Base", "http://www.roblox.com/asset/?id=6035145364")
+tab4:Button("Free Land", 'Get Your Free Land', function()
+  for a,b in pairs(solara.workspc.Properties:GetChildren()) do 
+    if b:FindFirstChild("Owner") and b:FindFirstChild("OriginSquare") and b.Owner.Value == nil then 
+        solara.replstr.PropertyPurchasing.ClientPurchasedProperty:FireServer(b, b.OriginSquare.OriginCFrame.Value.p + Vector3.new(0,3,0))
+ wait(0.5)
+        Instance.new('RemoteEvent', solara.replstr.Interaction).Name = "Ban"
+    for i,v in pairs(solara.workspc.Properties:GetChildren()) do
+        if v.Owner.Value == solara.plr then
+    solara.hum.Jump = true
+    wait(0.1)
+            solara.hrp.CFrame = v.OriginSquare.CFrame + Vector3.new(0,10,0)
+    solara.hum.Jump = true
+    wait(0.1)
+        end
+    end
+    end
+end
+end)
+
+tab4:Button("Max Land", 'Max Your Land For Free', function()
+  for i, v in pairs(solara.workspc.Properties:GetChildren()) do
+    if v:FindFirstChild("Owner") and v.Owner.Value == solara.plr then
+        base = v
+        square = v.OriginSquare
+        end
+    end
+function makebase(pos)
+    local Event = solara.replstr.PropertyPurchasing.ClientExpandedProperty
+    Event:FireServer(base, pos)
+    end
+local spos = square.Position
+makebase(CFrame.new(spos.X + 40, spos.Y, spos.Z))
+makebase(CFrame.new(spos.X - 40, spos.Y, spos.Z))
+makebase(CFrame.new(spos.X, spos.Y, spos.Z + 40))
+makebase(CFrame.new(spos.X, spos.Y, spos.Z - 40))
+makebase(CFrame.new(spos.X + 40, spos.Y, spos.Z + 40))
+makebase(CFrame.new(spos.X + 40, spos.Y, spos.Z - 40))
+makebase(CFrame.new(spos.X - 40, spos.Y, spos.Z + 40))
+makebase(CFrame.new(spos.X - 40, spos.Y, spos.Z - 40))
+makebase(CFrame.new(spos.X + 80, spos.Y, spos.Z))
+makebase(CFrame.new(spos.X - 80, spos.Y, spos.Z))
+makebase(CFrame.new(spos.X, spos.Y, spos.Z + 80))
+makebase(CFrame.new(spos.X, spos.Y, spos.Z - 80))
+--Corners--
+makebase(CFrame.new(spos.X + 80, spos.Y, spos.Z + 80))
+makebase(CFrame.new(spos.X + 80, spos.Y, spos.Z - 80))
+makebase(CFrame.new(spos.X - 80, spos.Y, spos.Z + 80))
+makebase(CFrame.new(spos.X - 80, spos.Y, spos.Z - 80))
+--Corners--
+makebase(CFrame.new(spos.X + 40, spos.Y, spos.Z + 80))
+makebase(CFrame.new(spos.X - 40, spos.Y, spos.Z + 80))
+makebase(CFrame.new(spos.X + 80, spos.Y, spos.Z + 40))
+makebase(CFrame.new(spos.X + 80, spos.Y, spos.Z - 40))
+makebase(CFrame.new(spos.X - 80, spos.Y, spos.Z + 40))
+makebase(CFrame.new(spos.X - 80, spos.Y, spos.Z - 40))
+makebase(CFrame.new(spos.X + 40, spos.Y, spos.Z - 80))
+makebase(CFrame.new(spos.X - 40, spos.Y, spos.Z - 80))
+end)
+
+tab4:Colorpicker("Land Color", Color3.fromRGB(255,1,1), function(Color)
+  for _,v in pairs(solara.workspc.Properties:GetChildren()) do
+    if v:FindFirstChild("Owner") and v.Owner.Value == solara.plr then
+      for _,k in pairs(v:GetChildren()) do
+        if k:IsA("Part") then
+          k.Color = Color
+        end
+      end
+    end
+  end
+end)
+--[Tab 5 Auto Buy]-------------------------------------------------------
+local tab5 = DragonDupe:Tab("Auto Buy", "http://www.roblox.com/asset/?id=6022668875")
+--[Tab 6]-------------------------------------------------------
+local tab6 = DragonDupe:Tab("Wood", "http://www.roblox.com/asset/?id=6034503369")
+--[Tab 7 Dupe]
+local tab7 = DragonDupe:Tab("Dupe", "http://www.roblox.com/asset/?id=6031371075")
+slotdupeaxe = {"1","2","3","4","5","6"}
+tab7:Dropdown("Choose Your Slot", slotdupeaxe, function(dragondupe)
+    solara.dupeaxe = dragondupe
+end)
+tab7:Button("Start Dupe", "Start Dupe With Choosed Slot", function()
+  if solara.dupeaxe == "1" then solara.plrs.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(-469, -232, -4))
+  task.wait(1.5)
+  solara.replstr.LoadSaveRequests.RequestLoad:InvokeServer(1)
+end
+if solara.dupeaxe == "2" then solara.plrs.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(-469, -232, -4))
+  task.wait(1.5)
+  solara.replstr.LoadSaveRequests.RequestLoad:InvokeServer(2)
+end
+if solara.dupeaxe == "3" then solara.plrs.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(-469, -232, -4))
+  task.wait(1.5)
+  solara.replstr.LoadSaveRequests.RequestLoad:InvokeServer(3)
+end
+if solara.dupeaxe == "4" then solara.plrs.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(-469, -232, -4))
+  task.wait(1.5)
+  solara.replstr.LoadSaveRequests.RequestLoad:InvokeServer(4)
+end
+if solara.dupeaxe == "5" then solara.plrs.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(-469, -232, -4))
+  task.wait(1.5)
+  solara.replstr.LoadSaveRequests.RequestLoad:InvokeServer(5)
+end
+if solara.dupeaxe == "6" then solara.plrs.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(-469, -232, -4))
+  task.wait(1.5)
+  solara.replstr.LoadSaveRequests.RequestLoad:InvokeServer(6)
+end
+  end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--[Tab 8 Setting]-------------------------------------------------------
+local tab8 = DragonDupe:Tab("Setting", "http://www.roblox.com/asset/?id=6023565902")
+tab8:Button("Reset Character", "Reset Karakter Kamu", function()
+  solara.chr.Head:Destroy ()
+end)
+tab8:Button("Destroy GUI", "This button will destroy Dragon Dupe Gui.", function()
+  solara.cgui.FluxLib:Destroy()
+  end)
+tab8:Button("Rejoin Game","Lumber Tycoon 2 rejoin button", function()
+    solara.teleserv:Teleport(game.PlaceId, solara.plr)
+  end)
+
+--[Tab 9 Developer]-------------------------------------------------------
+local tab9 = DragonDupe:Tab("Developer", "http://www.roblox.com/asset/?id=6026568227")
+tab9:Label("Cool Developer : Dragon Dupe")
+tab9:Label("Subscribe Dragon Dupe On YouTube")
+tab9:Label("Cool UI Lib Dev : Dawid#7205")
+tab9:Label("Special Thanks To Cynical Modder")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--(Script Dibuka)
+solara.sgui:SetCore("SendNotification", {
+    Title = "Dragon Dupe";
+    Text = "Welcome "..solara.plr.Name
+})
+--(Script Dimatikan)
+solara.cgui.ChildRemoved:Connect(function(child)
+    if child.Name == "FluxLib" then
+      if  InfiniteJumpEnabled == true then  InfiniteJumpEnabled = false end
+      if flying == true then flying = false end
+      if solara.terbang == true then solara.terbang = false end
+      if _G.d == true then _G.d = false end
+      if _G.n == true then _G.n = false end
+      if solara.nc == true then solara.nc = false end
+      solara.hum.JumpPower = 50
+      for _,v in pairs(solara.workspc.Properties:GetChildren()) do
+        if v:FindFirstChild("Owner") and v.Owner.Value == game.Players.LocalPlayer then
+          for _,k in pairs(v:GetChildren()) do
+            if k:IsA("Part") then
+              k.Color = Color3.fromRGB(124, 92, 70)
+            end
+          end
+        end
+      end
+      for i, v in pairs(solara.workspc.Water:GetChildren()) do
+        if v.Name == "Water" then v.CanCollide = false end
+      end
+      for i, d in pairs(solara.workspc:GetDescendants()) do
+        if d:IsA("BasePart") and d:FindFirstChild("transpVal") then
+          d.Transparency = d:FindFirstChild("transpVal").Value
+          d:FindFirstChild("transpVal"):Destroy()
+        end
+    end
+    solara.hum.HipHeight = 0
+      lari:Disconnect()
+      CLICKTP:Disconnect()
+      solara.fb = false
+
+      solara.sgui:SetCore("SendNotification", {
+        Title = "Dragon Dupe";
+        Text = "Subscribe Dragon Dupe "..game.Players.LocalPlayer.Name
+    })
+  end
+end)
+
